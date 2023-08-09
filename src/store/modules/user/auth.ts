@@ -2,27 +2,31 @@ import { defineStore, acceptHMRUpdate } from 'pinia'
 import axios from "axios";
 
 export const useAuthStore = defineStore('auth', {
-  state: () => ({
-    title: 'Say hi from auth store!'
-  }),
+  state: () => ({}),
   actions: {
     async login(user: any) {
       try {
-        const { VITE_APP_BASE_URL, VITE_APP_CLIENT_SECRET } = import.meta.env;
-        const { data } = await axios.post(
-          `${VITE_APP_BASE_URL}/oauth/token`,
+        const { VITE_APP_API_URL } = import.meta.env;
+
+        const api = axios.create({
+          baseURL: VITE_APP_API_URL,
+          headers: {
+              "Accept": "application/json"
+          }
+      })
+
+        const {data} = await api.post('login',
           {
             username: user.username,
-            password: user.password,
-            grant_type: 'password',
-            client_id: 2,
-            client_secret: VITE_APP_CLIENT_SECRET
+            password: user.password
           }
         );
-        localStorage.setItem("access_token_key", data.token);
+
+        localStorage.setItem("access_token_key", data);
         location.reload();
         return Promise.resolve(data);
       } catch (error: any) {
+        console.log(error);
         return Promise.reject(error);
       }
     },

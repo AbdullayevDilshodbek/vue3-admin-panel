@@ -11,8 +11,8 @@ interface ILoginKeys {
   password: string
 }
 const keys = ref<ILoginKeys>({
-  username: '',
-  password: ''
+  username: 'admin',
+  password: '123'
 })
 
 const validate = ref({
@@ -30,7 +30,7 @@ async function login() {
     } else {
       validate.value.noUsername = false
       validate.value.noPassword = false
-      const res = await authStore.login({
+      await authStore.login({
         username: keys.value.username,
         password: keys.value.password
       })

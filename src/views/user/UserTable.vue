@@ -18,14 +18,12 @@ const props = defineProps<Props>()
               <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">
                 Fullname</th>
               <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">
-                Email</th>
+                Username</th>
               <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">
                 Phone</th>
               <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">
                 Status</th>
-              <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">
-                Created At</th>
-              <th class="px-6 py-3 border-b-2 border-gray-300"></th>
+              <th class="px-6 py-3 border-b-2 border-gray-300  text-blue-500 tracking-wider">Amallar</th>
             </tr>
           </thead>
           <tbody class="bg-white">
@@ -41,22 +39,21 @@ const props = defineProps<Props>()
                 <div class="text-sm leading-5 text-blue-900">{{ item.full_name }}</div>
               </td>
               <td class="px-6 py-1 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
-                {{ item.email }}</td>
+                {{ item.username }}</td>
               <td class="px-6 py-1 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
                 {{ item.phone }}</td>
               <td class="px-6 py-1 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
                 <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                  <span aria-hidden :class="item.status == 'active' ? 'status_success' : 'status_error'"></span>
+                  <span aria-hidden :class="item.status == 'Agent' ? 'status_success' : 'status_error'"></span>
                   <span class="relative text-xs">{{ item.status }}</span>
                 </span>
               </td>
-              <td class="px-6 py-1 whitespace-no-wrap border-b border-gray-500 text-blue-900 text-sm leading-5">{{ item.date }}</td>
-              <td class="px-6 py-1 text-right border-b border-gray-500 text-sm leading-1">
+              <td class="px-6 py-1 text-right border-b border-gray-500 text-sm leading-1 flex justify-center">
                 <v-btn icon dense class="mr-2">
                   <v-icon dense>mdi-pencil</v-icon>
                 </v-btn>
                 <v-btn icon>
-                  <v-icon>mdi-delete-outline</v-icon>
+                  <v-icon :color="item.active ? 'green': 'error'">{{ item.active ? 'mdi-toggle-switch-outline' : 'mdi-toggle-switch-off-outline' }}</v-icon>
                 </v-btn>
               </td>
             </tr>
@@ -71,6 +68,6 @@ const props = defineProps<Props>()
       @apply absolute inset-0 bg-green-200 opacity-50 rounded-full
     }
     .status_error {
-      @apply absolute inset-0 bg-red-200 opacity-50 rounded-full
+      @apply absolute inset-0 bg-blue-200 opacity-50 rounded-full
     }
 </style>
