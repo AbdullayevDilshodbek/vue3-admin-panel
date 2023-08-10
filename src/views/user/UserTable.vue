@@ -1,7 +1,22 @@
 <script setup lang="ts">
+import { useUserStore } from '@/store/modules/user/index'
+import { IUserTableEmit } from '@/interfaces/user/index'
+
+// interfaces
 interface Props {
   items: any[]
 }
+
+// emit
+const emit = defineEmits<IUserTableEmit>()
+
+const userStore = useUserStore()
+
+async function changeActive(id: number) {
+  const res = await userStore.changeActive(id)
+  emit('changedActive')
+}
+
 const props = defineProps<Props>()
 </script>
 
@@ -14,13 +29,13 @@ const props = defineProps<Props>()
         <table class="min-w-full">
           <thead>
             <tr>
-              <th class="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider">ID</th>
+              <th class="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider">№</th>
               <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">
-                Fullname</th>
+                F.I.O</th>
               <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">
                 Username</th>
               <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">
-                Phone</th>
+                Telefon</th>
               <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">
                 Status</th>
               <th class="px-6 py-3 border-b-2 border-gray-300  text-blue-500 tracking-wider">Amallar</th>
@@ -31,7 +46,7 @@ const props = defineProps<Props>()
               <td class="px-6 py-1 whitespace-no-wrap border-b border-gray-500">
                 <div class="flex items-center">
                   <div>
-                    <div class="text-sm leading-5 text-gray-800">{{item.id}}</div>
+                    <div class="text-sm leading-5 text-gray-800">{{ item.id }}</div>
                   </div>
                 </div>
               </td>
@@ -49,25 +64,27 @@ const props = defineProps<Props>()
                 </span>
               </td>
               <td class="px-6 py-1 text-right border-b border-gray-500 text-sm leading-1 flex justify-center">
-                <v-btn icon dense class="mr-2">
-                  <v-icon dense>mdi-pencil</v-icon>
+                <v-btn icon variant="text" class="mr-2">
+                  <v-icon color="blue">mdi-pencil</v-icon>
                 </v-btn>
-                <v-btn icon>
-                  <v-icon :color="item.active ? 'green': 'error'">{{ item.active ? 'mdi-toggle-switch-outline' : 'mdi-toggle-switch-off-outline' }}</v-icon>
+                <v-btn variant="text" icon @click="changeActive(item.id)">
+                  <v-icon :color="item.active ? 'blue' : 'error'">{{ item.active ? 'mdi-toggle-switch-outline' :
+                    'mdi-toggle-switch-off-outline' }}</v-icon>
                 </v-btn>
               </td>
             </tr>
           </tbody>
         </table>
+      </div>
     </div>
   </div>
-</div>
 </template>
 <style scoped>
-    .status_success {
-      @apply absolute inset-0 bg-green-200 opacity-50 rounded-full
-    }
-    .status_error {
-      @apply absolute inset-0 bg-blue-200 opacity-50 rounded-full
-    }
+.status_success {
+  @apply absolute inset-0 bg-green-200 opacity-50 rounded-full
+}
+
+.status_error {
+  @apply absolute inset-0 bg-blue-200 opacity-50 rounded-full
+}
 </style>
